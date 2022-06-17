@@ -2,6 +2,7 @@ package com.mparticle.example.higgsshopsampleapp.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,6 +17,7 @@ import com.mparticle.MParticle
 import com.mparticle.example.higgsshopsampleapp.R
 import com.mparticle.example.higgsshopsampleapp.databinding.ActivityMainBinding
 import com.mparticle.example.higgsshopsampleapp.utils.Constants
+import com.mparticle.example.higgsshopsampleapp.utils.Tracing.Companion.StartSpan
 import com.mparticle.example.higgsshopsampleapp.viewmodels.CartViewModel
 
 
@@ -25,6 +27,8 @@ class MainActivity : AppCompatActivity() {
     var activityResultLaunch: ActivityResultLauncher<Intent>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val span = StartSpan("MainActivity-onCreate")
+
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_mParticle_SampleApp)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -63,6 +67,9 @@ class MainActivity : AppCompatActivity() {
                 .customAttributes(customAttributes)
                 .build()
             MParticle.getInstance()?.logEvent(event)
+
+            span.end()
+
             return@setOnItemSelectedListener true
         }
 

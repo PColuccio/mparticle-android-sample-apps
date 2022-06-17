@@ -16,9 +16,12 @@ import com.mparticle.MParticle
 import com.mparticle.example.higgsshopsampleapp.BuildConfig
 import com.mparticle.example.higgsshopsampleapp.R
 import com.mparticle.example.higgsshopsampleapp.utils.Constants
+import com.mparticle.example.higgsshopsampleapp.utils.Tracing
 
 class LandingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val span = Tracing.StartSpan("LandingActivity-onCreate")
+
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
         super.onCreate(savedInstanceState)
@@ -41,6 +44,7 @@ class LandingActivity : AppCompatActivity() {
             btnCTA.alpha = 0.3F
             showBlankAPIKeyAlert()
         }
+        span.end()
     }
 
     fun hasApiKey(): Boolean {

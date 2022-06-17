@@ -24,6 +24,7 @@ import com.mparticle.example.higgsshopsampleapp.R
 import com.mparticle.example.higgsshopsampleapp.databinding.ActivityDetailBinding
 import com.mparticle.example.higgsshopsampleapp.repositories.database.entities.CartItemEntity
 import com.mparticle.example.higgsshopsampleapp.utils.Constants
+import com.mparticle.example.higgsshopsampleapp.utils.Tracing
 import com.mparticle.example.higgsshopsampleapp.viewmodels.ProductDetailViewModel
 import java.math.BigDecimal
 
@@ -34,6 +35,8 @@ class ProductDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val span = Tracing.StartSpan("ProductDetailActivity-onCreate")
+
         setTheme(R.style.Theme_mParticle_SampleApp);
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -158,6 +161,8 @@ class ProductDetailActivity : AppCompatActivity() {
             }
         })
         detailViewModel.getProductById(this, productId)
+
+        span.end()
     }
 
     override fun onSupportNavigateUp(): Boolean {

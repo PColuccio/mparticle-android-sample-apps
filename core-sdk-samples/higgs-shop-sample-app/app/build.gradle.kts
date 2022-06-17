@@ -20,6 +20,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "HIGGS_SHOP_SAMPLE_APP_KEY", "\"${System.getenv("HIGGS_SHOP_SAMPLE_APP_KEY")}\"")
         buildConfigField("String", "HIGGS_SHOP_SAMPLE_APP_SECRET", "\"${System.getenv("HIGGS_SHOP_SAMPLE_APP_SECRET")}\"")
+        buildConfigField("String", "OTEL_COLLECTOR_HOST", "\"${System.getenv("OTEL_COLLECTOR_HOST")}\"")
     }
     buildFeatures {
         dataBinding = true
@@ -49,7 +50,7 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
     implementation("com.google.android.material:material:1.5.0")
-    implementation("com.mparticle:android-core:5.35.3")
+    implementation("com.mparticle:android-core:5.41.1-SNAPSHOT")
 
     implementation("androidx.navigation:navigation-fragment:2.3.5")
     implementation("androidx.navigation:navigation-ui:2.3.5")
@@ -101,6 +102,25 @@ dependencies {
     androidTestImplementation("androidx.test:runner:1.4.0")
     androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
     androidTestUtil("androidx.test:orchestrator:1.4.1")
+
+    implementation(platform("io.opentelemetry:opentelemetry-bom:1.14.0"))
+    implementation("io.opentelemetry:opentelemetry-api")
+    implementation("io.opentelemetry:opentelemetry-exporter-logging")
+
+    implementation("io.opentelemetry:opentelemetry-exporter-otlp")
+    implementation("io.opentelemetry:opentelemetry-exporter-zipkin")
+
+    api(platform("io.opentelemetry:opentelemetry-bom:1.6.0"))
+
+    // AWS Recommended
+    implementation("io.opentelemetry:opentelemetry-api")
+    implementation("io.opentelemetry:opentelemetry-exporter-otlp")
+    implementation("io.opentelemetry:opentelemetry-sdk")
+
+
+    implementation("io.opentelemetry:opentelemetry-extension-aws")
+    implementation("io.opentelemetry:opentelemetry-sdk-extension-aws")
+    implementation("io.opentelemetry.contrib:opentelemetry-aws-xray:1.6.0")
 }
 
 fun buildVersionCode(): Int {

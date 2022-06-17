@@ -23,6 +23,7 @@ import com.mparticle.example.higgsshopsampleapp.adapters.CheckoutItemsAdapter
 import com.mparticle.example.higgsshopsampleapp.databinding.ActivityCheckoutBinding
 import com.mparticle.example.higgsshopsampleapp.repositories.database.entities.CartItemEntity
 import com.mparticle.example.higgsshopsampleapp.utils.Constants
+import com.mparticle.example.higgsshopsampleapp.utils.Tracing
 import com.mparticle.example.higgsshopsampleapp.viewmodels.CheckoutViewModel
 import java.math.BigDecimal
 import java.util.Calendar
@@ -34,6 +35,8 @@ class CheckoutActivity : AppCompatActivity() {
     private lateinit var checkoutViewModel: CheckoutViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val span = Tracing.StartSpan("CheckoutActivity-onCreate")
+
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_mParticle_SampleApp);
         binding = ActivityCheckoutBinding.inflate(layoutInflater)
@@ -89,6 +92,8 @@ class CheckoutActivity : AppCompatActivity() {
             }
         })
         checkoutViewModel.getCartItems(this)
+
+        span.end()
     }
 
     override fun onSupportNavigateUp(): Boolean {

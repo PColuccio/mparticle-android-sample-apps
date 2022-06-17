@@ -11,6 +11,7 @@ import com.mparticle.commerce.Product
 import com.mparticle.commerce.TransactionAttributes
 import com.mparticle.example.higgsshopsampleapp.repositories.CartRepository
 import com.mparticle.example.higgsshopsampleapp.repositories.database.entities.CartItemEntity
+import com.mparticle.example.higgsshopsampleapp.utils.Tracing
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
@@ -52,6 +53,7 @@ class CartViewModel : ViewModel() {
 
     fun removeFromCart(context: Context, entity: CartItemEntity) {
         viewModelScope.launch {
+            val span = Tracing.StartSpan("item-removed-from-cart")
             val rowsAffected = cartRepository.removeFromCart(context, entity)
             if (rowsAffected > 0) {
                 val product = Product.Builder(entity.label, entity.id.toString(), entity.price.toDouble())
@@ -62,7 +64,9 @@ class CartViewModel : ViewModel() {
                     .quantity(entity.quantity.toDouble())
                     .build()
                 val event = CommerceEvent.Builder(Product.REMOVE_FROM_CART, product)
+                    .enableTracing(span)
                     .build()
+
                 MParticle.getInstance()?.logEvent(event)
                 Log.d(TAG, "Publish Success")
                 cartResponseLiveData.value = cartRepository.getCartItems(context)
@@ -70,6 +74,7 @@ class CartViewModel : ViewModel() {
                 Log.d(TAG, "Publish Fail")
                 cartResponseLiveData.value = cartRepository.getCartItems(context)
             }
+            span.end()
         }
     }
 }
