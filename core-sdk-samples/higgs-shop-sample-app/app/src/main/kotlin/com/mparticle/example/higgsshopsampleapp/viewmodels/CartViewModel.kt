@@ -64,8 +64,8 @@ class CartViewModel : ViewModel() {
                     .quantity(entity.quantity.toDouble())
                     .build()
                 val event = CommerceEvent.Builder(Product.REMOVE_FROM_CART, product)
-                    .enableTracing(span)
                     .build()
+                    .enableTracing(span)
 
                 MParticle.getInstance()?.logEvent(event)
                 Log.d(TAG, "Publish Success")
