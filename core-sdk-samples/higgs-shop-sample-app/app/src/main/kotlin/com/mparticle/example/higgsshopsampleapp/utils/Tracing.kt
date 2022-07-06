@@ -25,9 +25,9 @@ class Tracing {
 
             if (initialized) return
 
-            val logExport: LoggingSpanExporter =
-                LoggingSpanExporter
-                    .create()
+//            val logExport: LoggingSpanExporter =
+//                LoggingSpanExporter
+//                    .create()
 
             val spanExporter: ZipkinSpanExporter =
                 ZipkinSpanExporter
@@ -47,8 +47,8 @@ class Tracing {
                     SdkTracerProvider.builder()
                         .addSpanProcessor(
                             BatchSpanProcessor.builder(spanExporter).build())
-                        .addSpanProcessor(
-                            BatchSpanProcessor.builder(logExport).build())
+//                        .addSpanProcessor(
+//                            BatchSpanProcessor.builder(logExport).build())
                         .setIdGenerator(AwsXrayIdGenerator.getInstance())
                         .build())
                 .buildAndRegisterGlobal();

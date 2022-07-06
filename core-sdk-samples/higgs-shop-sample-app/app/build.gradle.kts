@@ -18,9 +18,13 @@ android {
         versionCode = buildVersionCode()
         versionName = "0.11.3-SNAPSHOT"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "HIGGS_SHOP_SAMPLE_APP_KEY", "\"${System.getenv("HIGGS_SHOP_SAMPLE_APP_KEY")}\"")
-        buildConfigField("String", "HIGGS_SHOP_SAMPLE_APP_SECRET", "\"${System.getenv("HIGGS_SHOP_SAMPLE_APP_SECRET")}\"")
-        buildConfigField("String", "OTEL_COLLECTOR_HOST", "\"${System.getenv("OTEL_COLLECTOR_HOST")}\"")
+        // QA Creds
+        buildConfigField("String", "HIGGS_SHOP_SAMPLE_APP_KEY", "\"039424fb9a39834690ffe28c4032140d\"")
+        buildConfigField("String", "HIGGS_SHOP_SAMPLE_APP_SECRET", "\"ZE2V4oU5zL7trGxvCLKpPmIXdEx9JZ2FAR9GrUctrruaI8nPMX2f_Q-wWVMjjX1G\"")
+        // ST1 Creds
+//        buildConfigField("String", "HIGGS_SHOP_SAMPLE_APP_KEY", "\"st1-0f9e4d562ebe4648af8242d43f1b052c\"")
+//        buildConfigField("String", "HIGGS_SHOP_SAMPLE_APP_SECRET", "\"Ak-rbqqjHYqJqUwug36GXfY9vJG7Lw-3IEWpwMpYBQniOSADIqPwvG7LLL4gMcZa\"")
+        buildConfigField("String", "OTEL_COLLECTOR_HOST", "\"http://otel.mparticle.com\"")
     }
     buildFeatures {
         dataBinding = true
@@ -103,21 +107,13 @@ dependencies {
     androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
     androidTestUtil("androidx.test:orchestrator:1.4.1")
 
-    implementation(platform("io.opentelemetry:opentelemetry-bom:1.14.0"))
-    implementation("io.opentelemetry:opentelemetry-api")
-    implementation("io.opentelemetry:opentelemetry-exporter-logging")
-
-    implementation("io.opentelemetry:opentelemetry-exporter-otlp")
-    implementation("io.opentelemetry:opentelemetry-exporter-zipkin")
-
+    // OTEL Required resources.
     api(platform("io.opentelemetry:opentelemetry-bom:1.6.0"))
-
-    // AWS Recommended
+    implementation("io.opentelemetry:opentelemetry-exporter-logging")
+    implementation("io.opentelemetry:opentelemetry-exporter-zipkin")
     implementation("io.opentelemetry:opentelemetry-api")
     implementation("io.opentelemetry:opentelemetry-exporter-otlp")
     implementation("io.opentelemetry:opentelemetry-sdk")
-
-
     implementation("io.opentelemetry:opentelemetry-extension-aws")
     implementation("io.opentelemetry:opentelemetry-sdk-extension-aws")
     implementation("io.opentelemetry.contrib:opentelemetry-aws-xray:1.6.0")
